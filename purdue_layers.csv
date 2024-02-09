@@ -1,0 +1,2 @@
+Advisory URL,Vendor,Equipment,Affected Products,CVE URLs,Purdue Layer
+https://www.cisa.gov/news-events/ics-advisories/icsa-23-313-02,Hitachi Energy,eSOMS,['eSOMS: v6.3.13 and prior'],"['http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5514', 'http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5515', 'http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-5516']","ChatCompletionMessage(content='Purdue Layer 2', role='assistant', function_call=None, tool_calls=None)"
