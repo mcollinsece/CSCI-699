@@ -1,0 +1,288 @@
+{
+    "resultsPerPage": 1,
+    "startIndex": 0,
+    "totalResults": 1,
+    "format": "NVD_CVE",
+    "version": "2.0",
+    "timestamp": "2024-04-07T20:02:27.767",
+    "vulnerabilities": [
+        {
+            "cve": {
+                "id": "CVE-2019-1010218",
+                "sourceIdentifier": "josh@bress.net",
+                "published": "2019-07-22T18:15:10.917",
+                "lastModified": "2020-09-30T13:40:18.163",
+                "vulnStatus": "Analyzed",
+                "descriptions": [
+                    {
+                        "lang": "en",
+                        "value": "Cherokee Webserver Latest Cherokee Web server Upto Version 1.2.103 (Current stable) is affected by: Buffer Overflow - CWE-120. The impact is: Crash. The component is: Main cherokee command. The attack vector is: Overwrite argv[0] to an insane length with execl. The fixed version is: There's no fix yet."
+                    },
+                    {
+                        "lang": "es",
+                        "value": "El servidor web de Cherokee más reciente de Cherokee Webserver Hasta Versión 1.2.103 (estable actual) está afectado por: Desbordamiento de Búfer - CWE-120. El impacto es: Bloqueo. El componente es: Comando cherokee principal. El vector de ataque es: Sobrescribir argv[0] en una longitud no sana con execl. La versión corregida es: no hay ninguna solución aún."
+                    }
+                ],
+                "metrics": {
+                    "cvssMetricV31": [
+                        {
+                            "source": "nvd@nist.gov",
+                            "type": "Primary",
+                            "cvssData": {
+                                "version": "3.1",
+                                "vectorString": "CVSS:3.1\/AV:N\/AC:L\/PR:N\/UI:N\/S:U\/C:N\/I:N\/A:H",
+                                "attackVector": "NETWORK",
+                                "attackComplexity": "LOW",
+                                "privilegesRequired": "NONE",
+                                "userInteraction": "NONE",
+                                "scope": "UNCHANGED",
+                                "confidentialityImpact": "NONE",
+                                "integrityImpact": "NONE",
+                                "availabilityImpact": "HIGH",
+                                "baseScore": 7.5,
+                                "baseSeverity": "HIGH"
+                            },
+                            "exploitabilityScore": 3.9,
+                            "impactScore": 3.6
+                        }
+                    ],
+                    "cvssMetricV2": [
+                        {
+                            "source": "nvd@nist.gov",
+                            "type": "Primary",
+                            "cvssData": {
+                                "version": "2.0",
+                                "vectorString": "AV:N\/AC:L\/Au:N\/C:N\/I:N\/A:P",
+                                "accessVector": "NETWORK",
+                                "accessComplexity": "LOW",
+                                "authentication": "NONE",
+                                "confidentialityImpact": "NONE",
+                                "integrityImpact": "NONE",
+                                "availabilityImpact": "PARTIAL",
+                                "baseScore": 5.0
+                            },
+                            "baseSeverity": "MEDIUM",
+                            "exploitabilityScore": 10.0,
+                            "impactScore": 2.9,
+                            "acInsufInfo": false,
+                            "obtainAllPrivilege": false,
+                            "obtainUserPrivilege": false,
+                            "obtainOtherPrivilege": false,
+                            "userInteractionRequired": false
+                        }
+                    ]
+                },
+                "weaknesses": [
+                    {
+                        "source": "nvd@nist.gov",
+                        "type": "Primary",
+                        "description": [
+                            {
+                                "lang": "en",
+                                "value": "CWE-787"
+                            }
+                        ]
+                    },
+                    {
+                        "source": "josh@bress.net",
+                        "type": "Secondary",
+                        "description": [
+                            {
+                                "lang": "en",
+                                "value": "CWE-120"
+                            }
+                        ]
+                    }
+                ],
+                "configurations": [
+                    {
+                        "nodes": [
+                            {
+                                "operator": "OR",
+                                "negate": false,
+                                "cpeMatch": [
+                                    {
+                                        "vulnerable": true,
+                                        "criteria": "cpe:2.3:a:cherokee-project:cherokee_web_server:*:*:*:*:*:*:*:*",
+                                        "versionEndIncluding": "1.2.103",
+                                        "matchCriteriaId": "DCE1E311-F9E5-4752-9F51-D5DA78B7BBFA"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "references": [
+                    {
+                        "url": "https:\/\/i.imgur.com\/PWCCyir.png",
+                        "source": "josh@bress.net",
+                        "tags": [
+                            "Exploit",
+                            "Third Party Advisory"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
+C:\Users\Matthew>curl https: //services.nvd.nist.gov/rest/json/cves/2.0?cveId=CVE-2022-25922
+{
+    "resultsPerPage": 1,
+    "startIndex": 0,
+    "totalResults": 1,
+    "format": "NVD_CVE",
+    "version": "2.0",
+    "timestamp": "2024-04-07T20:02:45.343",
+    "vulnerabilities": [
+        {
+            "cve": {
+                "id": "CVE-2022-25922",
+                "sourceIdentifier": "ics-cert@hq.dhs.gov",
+                "published": "2022-03-10T17:47:27.927",
+                "lastModified": "2022-03-19T01:03:44.787",
+                "vulnStatus": "Analyzed",
+                "descriptions": [
+                    {
+                        "lang": "en",
+                        "value": "Power Line Communications PLC4TRUCKS J2497 trailer brake controllers implement diagnostic functions which can be invoked by replaying J2497 messages. There is no authentication or authorization for these functions."
+                    },
+                    {
+                        "lang": "es",
+                        "value": "Los controladores de freno de remolque PLC4TRUCKS J2497 de Power Line Communications implementan funciones de diagnóstico que pueden ser invocadas mediante la reproducción de mensajes J2497. No se presenta autenticación ni autorización para estas funciones"
+                    }
+                ],
+                "metrics": {
+                    "cvssMetricV31": [
+                        {
+                            "source": "nvd@nist.gov",
+                            "type": "Primary",
+                            "cvssData": {
+                                "version": "3.1",
+                                "vectorString": "CVSS:3.1\/AV:N\/AC:L\/PR:N\/UI:N\/S:U\/C:N\/I:H\/A:H",
+                                "attackVector": "NETWORK",
+                                "attackComplexity": "LOW",
+                                "privilegesRequired": "NONE",
+                                "userInteraction": "NONE",
+                                "scope": "UNCHANGED",
+                                "confidentialityImpact": "NONE",
+                                "integrityImpact": "HIGH",
+                                "availabilityImpact": "HIGH",
+                                "baseScore": 9.1,
+                                "baseSeverity": "CRITICAL"
+                            },
+                            "exploitabilityScore": 3.9,
+                            "impactScore": 5.2
+                        },
+                        {
+                            "source": "ics-cert@hq.dhs.gov",
+                            "type": "Secondary",
+                            "cvssData": {
+                                "version": "3.1",
+                                "vectorString": "CVSS:3.1\/AV:P\/AC:L\/PR:N\/UI:N\/S:U\/C:N\/I:H\/A:H",
+                                "attackVector": "PHYSICAL",
+                                "attackComplexity": "LOW",
+                                "privilegesRequired": "NONE",
+                                "userInteraction": "NONE",
+                                "scope": "UNCHANGED",
+                                "confidentialityImpact": "NONE",
+                                "integrityImpact": "HIGH",
+                                "availabilityImpact": "HIGH",
+                                "baseScore": 6.1,
+                                "baseSeverity": "MEDIUM"
+                            },
+                            "exploitabilityScore": 0.9,
+                            "impactScore": 5.2
+                        }
+                    ],
+                    "cvssMetricV2": [
+                        {
+                            "source": "nvd@nist.gov",
+                            "type": "Primary",
+                            "cvssData": {
+                                "version": "2.0",
+                                "vectorString": "AV:N\/AC:L\/Au:N\/C:N\/I:P\/A:P",
+                                "accessVector": "NETWORK",
+                                "accessComplexity": "LOW",
+                                "authentication": "NONE",
+                                "confidentialityImpact": "NONE",
+                                "integrityImpact": "PARTIAL",
+                                "availabilityImpact": "PARTIAL",
+                                "baseScore": 6.4
+                            },
+                            "baseSeverity": "MEDIUM",
+                            "exploitabilityScore": 10.0,
+                            "impactScore": 4.9,
+                            "acInsufInfo": false,
+                            "obtainAllPrivilege": false,
+                            "obtainUserPrivilege": false,
+                            "obtainOtherPrivilege": false,
+                            "userInteractionRequired": false
+                        }
+                    ]
+                },
+                "weaknesses": [
+                    {
+                        "source": "nvd@nist.gov",
+                        "type": "Primary",
+                        "description": [
+                            {
+                                "lang": "en",
+                                "value": "CWE-306"
+                            }
+                        ]
+                    },
+                    {
+                        "source": "ics-cert@hq.dhs.gov",
+                        "type": "Secondary",
+                        "description": [
+                            {
+                                "lang": "en",
+                                "value": "CWE-306"
+                            }
+                        ]
+                    }
+                ],
+                "configurations": [
+                    {
+                        "operator": "AND",
+                        "nodes": [
+                            {
+                                "operator": "OR",
+                                "negate": false,
+                                "cpeMatch": [
+                                    {
+                                        "vulnerable": true,
+                                        "criteria": "cpe:2.3:o:hegemonelectronics:plc4trucks_firmware:j2497:*:*:*:*:*:*:*",
+                                        "matchCriteriaId": "774D3BA3-3A55-4B22-AA73-1D00E77459C0"
+                                    }
+                                ]
+                            },
+                            {
+                                "operator": "OR",
+                                "negate": false,
+                                "cpeMatch": [
+                                    {
+                                        "vulnerable": false,
+                                        "criteria": "cpe:2.3:h:hegemonelectronics:plc4trucks:-:*:*:*:*:*:*:*",
+                                        "matchCriteriaId": "E2D5DA42-3968-479B-821F-539E853F5178"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "references": [
+                    {
+                        "url": "https:\/\/www.cisa.gov\/uscert\/ics\/advisories\/icsa-22-063-01",
+                        "source": "ics-cert@hq.dhs.gov",
+                        "tags": [
+                            "Third Party Advisory",
+                            "US Government Resource"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
