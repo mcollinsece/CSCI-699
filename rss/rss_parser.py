@@ -14,7 +14,7 @@ RSS_URL = 'https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml'
 DB_PARAMS = {
     'dbname': 'chariots',
     'user': 'postgres',
-    'password': 'DrBanikIsAwesome',
+    'password': '<insertpassword>',
     'host': 'ics_db',
     #'host': '24.192.91.200',
     'port': 5432
