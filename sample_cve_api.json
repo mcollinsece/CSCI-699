@@ -195,6 +195,20 @@ CREATE TABLE cve_icsa_join (
 );
 
 
+CREATE TABLE cpe_entries (
+    cpe_id SERIAL PRIMARY KEY,
+    cve_id VARCHAR(255),
+    cpe_version VARCHAR(255),
+    part CHAR(1),
+    vendor VARCHAR(255),
+    product VARCHAR(255),
+    version VARCHAR(255),
+    update VARCHAR(255),
+    edition VARCHAR(255),
+    language VARCHAR(255)
+);
+
+
 
 
 
@@ -362,6 +376,72 @@ CREATE TABLE cve_icsa_join (
                     }
                 ]
             }
+        }
+    ]
+}
+
+
+
+
+{
+    "nodes": [
+        {
+            "negate": false,
+            "cpeMatch": [
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:linux:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "16C7C708-7C4F-4DD2-A871-71ED87B1B87F",
+                    "versionEndExcluding": "17.10.5.1",
+                    "versionStartIncluding": "17"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:macos:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "704C5575-DCA6-47CB-8B4B-82FE0FE09E78",
+                    "versionEndExcluding": "17.10.5.1",
+                    "versionStartIncluding": "17"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:windows:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "688F5FF7-599A-4326-A242-A9D69AEA9AF3",
+                    "versionEndExcluding": "17.10.5.1",
+                    "versionStartIncluding": "17.0.1.1"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:linux:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "90718D50-D4D8-4949-ADB3-310879B2A574",
+                    "versionEndExcluding": "18.3.2.1",
+                    "versionStartIncluding": "18.0"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:macos:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "C9BEA137-3C0A-472A-9A5B-428E00302626",
+                    "versionEndExcluding": "18.3.2.1",
+                    "versionStartIncluding": "18.0"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:odbc_driver_for_sql_server:*:*:*:*:*:windows:*:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "3194D825-8C6B-4B91-B874-6E65B2A038AD",
+                    "versionEndExcluding": "18.3.2.1",
+                    "versionStartIncluding": "18.0.1.1"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:sql_server:2019:*:*:*:*:*:x64:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "9144F644-A3D4-440C-8978-257E71204617"
+                },
+                {
+                    "criteria": "cpe:2.3:a:microsoft:sql_server:2022:*:*:*:*:*:x64:*",
+                    "vulnerable": true,
+                    "matchCriteriaId": "6CB7AD22-F27B-4807-88F1-02ED420421D5"
+                }
+            ],
+            "operator": "OR"
         }
     ]
 }

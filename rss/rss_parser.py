@@ -7,16 +7,18 @@ from psycopg2.extras import execute_values
 from contextlib import closing
 from bs4 import BeautifulSoup
 import re
+import requests
+import json
 
 # RSS Feed URL
 RSS_URL = 'https://www.cisa.gov/cybersecurity-advisories/ics-advisories.xml'
+API_KEY = "<insertAPIKey>"
 
 DB_PARAMS = {
     'dbname': 'chariots',
     'user': 'postgres',
     'password': '<insertpassword>',
     'host': 'ics_db',
-    #'host': '24.192.91.200',
     'port': 5432
 }
 
@@ -37,8 +39,96 @@ def init_db():
                 ''')
             conn.commit()
     except Exception as e:
-        print(f"Failed to initialize database: {e}")
+        print(f"Failed to initialize database: {e}", flush=True)
         raise
+
+def save_cve_details(cve_details):
+    """Save CVE details to the database, handling potentially missing values."""
+    try:
+        conn = psycopg2.connect(**DB_PARAMS)
+        cur = conn.cursor()
+
+        insert_query = """
+        INSERT INTO cve_list(
+            "cve_id", "results_per_page", "start_index", "total_results", "format", "version", 
+            "timestamp", "source_identifier", "published", "last_modified", "vuln_status", 
+            "descriptions", "metrics_v31", "metrics_v2", "weaknesses", "configurations", "references"
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT ("cve_id") DO UPDATE SET
+            "results_per_page" = EXCLUDED."results_per_page",
+            "start_index" = EXCLUDED."start_index",
+            "total_results" = EXCLUDED."total_results",
+            "format" = EXCLUDED."format",
+            "version" = EXCLUDED."version",
+            "timestamp" = EXCLUDED."timestamp",
+            "source_identifier" = EXCLUDED."source_identifier",
+            "published" = EXCLUDED."published",
+            "last_modified" = EXCLUDED."last_modified",
+            "vuln_status" = EXCLUDED."vuln_status",
+            "descriptions" = EXCLUDED."descriptions",
+            "metrics_v31" = EXCLUDED."metrics_v31",
+            "metrics_v2" = EXCLUDED."metrics_v2",
+            "weaknesses" = EXCLUDED."weaknesses",
+            "configurations" = EXCLUDED."configurations",
+            "references" = EXCLUDED."references";
+        """
+
+        # Safely extract vulnerability information with default values for potentially missing data
+        vuln = cve_details.get('vulnerabilities', [{}])[0].get('cve', {})
+        
+        # Serialize complex fields with defaults for missing data
+        descriptions = json.dumps([d['value'] for d in vuln.get('descriptions', [])])
+        metrics_v31 = json.dumps(vuln.get('metrics', {}).get('cvssMetricV31', [{}]))
+        metrics_v2 = json.dumps(vuln.get('metrics', {}).get('cvssMetricV2', [{}]))
+        weaknesses = json.dumps([{"source": w.get('source', ''), "description": w.get('description', [{}])[0].get('value', '')} for w in vuln.get('weaknesses', [])])
+        configurations = json.dumps(vuln.get('configurations', {}))
+        references = json.dumps([r.get('url', '') for r in vuln.get('references', [])])
+        
+        # Execute the insert query with all necessary parameters and default values for missing data
+        cur.execute(insert_query, (
+            vuln.get('id', ''), cve_details.get('resultsPerPage', 0), cve_details.get('startIndex', 0),
+            cve_details.get('totalResults', 0), cve_details.get('format', ''), cve_details.get('version', ''),
+            cve_details.get('timestamp', None), vuln.get('sourceIdentifier', ''), vuln.get('published', None),
+            vuln.get('lastModified', None), vuln.get('vulnStatus', ''), descriptions, metrics_v31,
+            metrics_v2, weaknesses, configurations, references
+        ))
+
+        conn.commit()
+        cur.close()
+        conn.close()
+        print("Data written to PostgreSQL Table", flush=True)
+    except psycopg2.Error as e:
+        print(f"Database error: {e}", flush=True)
+    except Exception as e:
+        print(f"An error occurred: {e}", flush=True)
+
+def fetch_cve_details(cve_id):
+    """
+    Fetch CVE details from the NVD API using an API key.
+    
+    Notice: This product uses data from the NVD API but is not endorsed or certified by the NVD.
+    """
+    # API key is now correctly passed in the header, adhering to the case sensitivity note.
+    url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_id}"
+    headers = {
+        'apiKey': API_KEY  # Header name is case-sensitive and follows the provided format.
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        # Handling HTTP status codes according to the provided guidelines.
+        if response.status_code == 200:
+            data = response.json()
+            # Handling the case where the request succeeds but no data is returned.
+            if not data.get('vulnerabilities'):
+                print(f"No data found for {cve_id}.", flush=True)
+                return None
+            return data
+        else:
+            # Extracting and printing the error message from the response header if available.
+            error_message = response.headers.get('message', 'No specific error message provided.')
+            print(f"Failed to fetch details for {cve_id}. Status code: {response.status_code}. Error: {error_message}", flush=True)
+    except requests.RequestException as e:
+        print(f"HTTP request error: {e}", flush=True)
 
 def fetch_and_update():
     feed = feedparser.parse(RSS_URL)
@@ -77,7 +167,7 @@ def fetch_and_update():
 
         # The rest of your code to set up the directory and parse other data
         directory_path = f"/srv/html_storage/{advisory_number}"
-        print(directory_path)
+        print(directory_path, flush=True)
         os.makedirs(directory_path, exist_ok=True)
         with open(os.path.join(directory_path, "page.html"), "w") as file:
             file.write(entry.summary)
@@ -95,8 +185,11 @@ def fetch_and_update():
                            entries)
 
             for cve, icsas in cve_to_icsas.items():
+                cve_details = fetch_cve_details(cve)
                 # Insert the CVE into the cve_list table, ignore duplicates
-                cur.execute("INSERT INTO cve_list (cve_id) VALUES (%s) ON CONFLICT (cve_id) DO NOTHING", (cve,))
+                #cur.execute("INSERT INTO cve_list (cve_id) VALUES (%s) ON CONFLICT (cve_id) DO NOTHING", (cve,))
+                save_cve_details(cve_details)
+                time.sleep(1)
 
                 unique_icsas = set(icsas)  # Remove duplicates of ICSAs for the current CVE
 
@@ -107,12 +200,12 @@ def fetch_and_update():
 
         conn.commit()
 
-    print(f"Entries inserted or skipped: {len(entries)}")
+    print(f"Entries inserted or skipped: {len(entries)}", flush=True)
 
 #Ensure the rest of your script (RSS_URL definition, etc.) remains unchanged
 if __name__ == "__main__":
     init_db()
     while True:
         fetch_and_update()
-        print("Sleeping for 1 hour...")
+        print("Sleeping for 1 hour...", flush=True)
         time.sleep(3600)  # Sleep for 1 hour
