@@ -205,8 +205,50 @@ CREATE TABLE cpe_entries (
     version VARCHAR(255),
     update VARCHAR(255),
     edition VARCHAR(255),
-    language VARCHAR(255)
+    language VARCHAR(255),
+    sw_edition VARCHAR(255),
+    target_sw VARCHAR(255),
+    target_hw VARCHAR(255),
+    other VARCHAR(255),
+    FOREIGN KEY (cve_id) REFERENCES cve_list(cve_id)
 );
+
+
+WITH DuplicateFinder AS (
+    SELECT 
+        cve_id, cpe_version, part, vendor, product, version, update, edition, language, sw_edition, target_sw, target_hw, other
+        COUNT(*) AS occurrences
+    FROM 
+        cpe_entries
+    GROUP BY 
+        cve_id, cpe_version, part, vendor, product, version, update, edition, language, sw_edition, target_sw, target_hw, other
+    HAVING 
+        COUNT(*) > 1
+)
+SELECT 
+    ce.cpe_id, ce.cve_id, ce.cpe_version, ce.part, ce.vendor, ce.product, ce.version, ce.update, ce.edition, ce.language, cp.sw_edition, cp.target_sw, cp.target_hw, cp.other
+FROM 
+    cpe_entries ce
+INNER JOIN 
+    DuplicateFinder df ON ce.cve_id = df.cve_id 
+                        AND ce.cpe_version = df.cpe_version 
+                        AND ce.part = df.part
+                        AND ce.vendor = df.vendor
+                        AND ce.product = df.product
+                        AND ce.version = df.version
+                        AND ce.update = df.update
+                        AND ce.edition = df.edition
+                        AND ce.language = df.language
+                        AND cp.sw_edition = df.sw_edition 
+                        AND cp.target_sw = df.target_sw 
+                        AND cp.target_hw = df.target_hw 
+                        AND cp.other = df.other
+ORDER BY 
+    ce.cve_id, ce.part, ce.vendor;
+
+
+
+    
 
 
 

@@ -9,7 +9,7 @@ import requests
 db_params = {
     'dbname': 'chariots',
     'user': 'postgres',
-    'password': '<insert password>',
+    'password': '<insertpassword>',
     'host': 'localhost'
 }
 

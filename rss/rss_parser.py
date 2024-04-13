@@ -17,7 +17,7 @@ API_KEY = "<insertAPIKey>"
 DB_PARAMS = {
     'dbname': 'chariots',
     'user': 'postgres',
-    'password': '<insertpassword>',
+    'password': '<insertPassword>',
     'host': 'ics_db',
     'port': 5432
 }

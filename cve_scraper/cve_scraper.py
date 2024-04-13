@@ -65,18 +65,22 @@ if __name__ == "__main__":
     db_params = {
         'dbname': 'chariots',
         'user': 'postgres',
-        'password': '<insert_password>',
+        'password': '<insertpassword>',
         'host': 'localhost'
     }
 
     cves_found = scan_directories_for_cves()
     cve_to_icsas = {}
 
+    count = 0
     for icsa, cve in cves_found:
         cve_to_icsas.setdefault(cve, set()).add(icsa)
+        count += 1
+    print("Number found: " + str(count))
 
     for cve in cve_to_icsas:
         cve_to_icsas[cve] = list(cve_to_icsas[cve])
 
     # Save to database
     save_to_database(cve_to_icsas, db_params)
+    print("Done")

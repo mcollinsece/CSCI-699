@@ -7,10 +7,12 @@ import time
 DB_PARAMS = {
     'dbname': 'chariots',
     'user': 'postgres',
-    'password': '<insert_password>',
-    'host': 'ics_db',  
+    'password': '<insertpassword>',
+    'host': 'ics_db', 
     'port': 5432
 }
+
+API_KEY = "<insertAPIKey>"
 
 def fetch_cve_ids():
     """Fetch all CVE IDs from the database."""
@@ -37,10 +39,9 @@ def fetch_cve_details(cve_id):
     Notice: This product uses data from the NVD API but is not endorsed or certified by the NVD.
     """
     # API key is now correctly passed in the header, adhering to the case sensitivity note.
-    api_key = "<insert_apiKey>"
     url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?cveId={cve_id}"
     headers = {
-        'apiKey': api_key  # Header name is case-sensitive and follows the provided format.
+        'apiKey': API_KEY  # Header name is case-sensitive and follows the provided format.
     }
     
     try:
