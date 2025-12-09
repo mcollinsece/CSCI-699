@@ -11,5 +11,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY rss_parser.py .
 
 # Run your script
-CMD ["python", "./rss_parser.py"]
+CMD ["python", "-u", "./rss_parser.py"]
+
 
